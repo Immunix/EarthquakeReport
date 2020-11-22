@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter adapter = new RecyclerAdapter(earthquakes);
+        RecyclerAdapter adapter = new RecyclerAdapter(this, earthquakes);
         recyclerView.setAdapter(adapter);
     }
 }

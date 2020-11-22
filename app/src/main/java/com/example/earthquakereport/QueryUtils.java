@@ -40,7 +40,7 @@ public final class QueryUtils {
 
                 String mag = properties.getString("mag");
                 String place = properties.getString("place");
-                String time = properties.getString("time");
+                long time = properties.getLong("time");
 
                 earthquakes.add(new Earthquake(mag, place, time));
             }

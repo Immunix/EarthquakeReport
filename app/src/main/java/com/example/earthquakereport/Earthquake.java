@@ -3,21 +3,19 @@ package com.example.earthquakereport;
 public class Earthquake {
     private final String mMagnitude;
     private final String mLocation;
-    private final String mDate;
+    private final long mTimeInMilliseconds;
 
-    public Earthquake(String magnitude, String location, String date) {
+    public Earthquake(String magnitude, String location, long timeInMilliseconds) {
         mMagnitude = magnitude;
         mLocation = location;
-        mDate = date;
+        mTimeInMilliseconds = timeInMilliseconds;
     }
 
     public String getMagnitude() {
         return mMagnitude;
     }
 
-    public String getDate() {
-        return mDate;
-    }
+    public long getTimeInMilliseconds() { return mTimeInMilliseconds; }
 
     public String getLocation() {
         return mLocation;
