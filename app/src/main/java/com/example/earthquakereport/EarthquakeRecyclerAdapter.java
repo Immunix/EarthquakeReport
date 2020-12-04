@@ -16,16 +16,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
+public class EarthquakeRecyclerAdapter extends RecyclerView.Adapter<EarthquakeRecyclerAdapter.ViewHolder>{
 
     private static final String LOCATION_SEPARATOR = " of ";
 
     private final ArrayList<Earthquake> mArrayList;
     private final Context mContext;
+    private final OnEarthquakeClickListener mQuakeListener;
 
-    public RecyclerAdapter (Context context, ArrayList<Earthquake> arrayList) {
+    public EarthquakeRecyclerAdapter(Context context, ArrayList<Earthquake> arrayList, OnEarthquakeClickListener quakeListener) {
         mArrayList = arrayList;
         mContext = context;
+        mQuakeListener = quakeListener;
     }
 
     @NonNull
@@ -33,7 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem= layoutInflater.inflate(R.layout.earthquake_list_cell, parent, false);
-        return new ViewHolder(listItem);
+        return new ViewHolder(listItem, mQuakeListener);
     }
 
     @Override
@@ -75,21 +77,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return mArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView magnitude;
         public TextView locationOffset;
         public TextView primaryLocation;
         public TextView date;
         public TextView time;
+        OnEarthquakeClickListener quakeListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnEarthquakeClickListener onEarthquakeClickListener) {
             super(itemView);
             this.magnitude = itemView.findViewById(R.id.magnitude);
             this.locationOffset = itemView.findViewById(R.id.location_offset);
             this.primaryLocation = itemView.findViewById(R.id.primary_location);
             this.date = itemView.findViewById(R.id.date);
             this.time = itemView.findViewById(R.id.time);
+            this.quakeListener = onEarthquakeClickListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            quakeListener.onEarthquakeClick(getAdapterPosition());
         }
     }
 
@@ -145,5 +156,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 break;
         }
         return ContextCompat.getColor(mContext, magnitudeColorResourceId);
+    }
+
+    public interface OnEarthquakeClickListener {
+        void onEarthquakeClick(int position);
     }
 }
